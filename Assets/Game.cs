@@ -17,9 +17,5 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (money >= clickVal * 10)
-        {
-            clickVal *= 10;
-        }
     }
 }
