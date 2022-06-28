@@ -22,7 +22,7 @@ public class UpgradeModuleBehaviour : MonoBehaviour
     void Update()
     {
         if (!instantiated && game.money >= .75) {
-            UpgradeModule = Instantiate(UpgradeModulePrefab).transform.Find("Upgrades") as Transform;
+            UpgradeModule = Instantiate(UpgradeModulePrefab).transform as Transform;
             UpgradeModule.SetParent(parent, false);
             instantiated = true;
         }
@@ -39,7 +39,8 @@ public class UpgradeModuleBehaviour : MonoBehaviour
     }
 
     void displayUpgrade(Upgrade upgrade){
+
         Transform button = Instantiate(UpgradeButton).transform as Transform;
-        button.SetParent(UpgradeModule, false);
+        button.SetParent(UpgradeModule.GetChild(2), false);
     }
 }
