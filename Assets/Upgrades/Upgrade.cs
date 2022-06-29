@@ -1,11 +1,12 @@
 
 
 public abstract class Upgrade {
-    public abstract UpgradeID id {get;}
+    public abstract  UpgradeID id {get;}
 
     public abstract string title { get; }
     public virtual string pricetag {get;}
     public abstract string description {get;}
+    public virtual Dictionary<string, object[]> values {get;}
 
     public int useCount;
     public int maxUses;
@@ -28,6 +29,8 @@ public abstract class Upgrade {
 
     protected abstract bool CheckTriggerConditions();
 
+    public abstract bool Cost();
+
     public void Use(){
         this.Execute();
         this.useCount++;
@@ -43,6 +46,10 @@ public abstract class Upgrade {
     }
 
     public override string ToString() {
-        return this.title;
+        return this.title + " " + this.pricetag;
+    }
+
+    private T getNext<T>(string name){
+        return (T)this.values[name][this.useCount];
     }
 }

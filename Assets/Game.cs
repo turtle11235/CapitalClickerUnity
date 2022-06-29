@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    public double money;
-    public double clickVal;
+    public static double money;
+    public static double clickVal;
 
     // Start is called before the first frame update
     void Start()
