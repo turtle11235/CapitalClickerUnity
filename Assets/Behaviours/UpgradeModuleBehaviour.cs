@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeModuleBehaviour : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class UpgradeModuleBehaviour : MonoBehaviour
             List<Upgrade> newUpgrades = um.getUpgrades();
             foreach(Upgrade upgrade in newUpgrades){
                 if (!upgrades.Contains(upgrade)){
+                    Debug.Log(upgrade);
                     displayUpgrade(upgrade);
                 }
             }
@@ -39,8 +41,22 @@ public class UpgradeModuleBehaviour : MonoBehaviour
     }
 
     void displayUpgrade(Upgrade upgrade){
+        GameObject button = Instantiate(UpgradeButton);
+        Transform buttonT = button.transform as Transform;
+        buttonT.SetParent(UpgradeModule.GetChild(2), false);
 
-        Transform button = Instantiate(UpgradeButton).transform as Transform;
-        button.SetParent(UpgradeModule.GetChild(2), false);
+        Text title = buttonT.GetChild(0).GetChild(0).GetComponent(typeof(Text)) as Text;
+        title.text = upgrade.title;
+
+        Text description = buttonT.GetChild(0).GetChild(1).GetComponent(typeof(Text)) as Text;
+        description.text = upgrade.description;        
+
+
+        button.GetComponent<Button>().onClick.AddListener(delegate { OnUpgradeButtonClick(upgrade, button); });
+    }
+
+    void OnUpgradeButtonClick(Upgrade upgrade, GameObject button){
+        upgrade.Use();
+        Destroy(button);
     }
 }

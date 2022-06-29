@@ -1,11 +1,11 @@
 
 
 public abstract class Upgrade {
-    public UpgradeID id;
+    public abstract UpgradeID id {get;}
 
-    public string title;
-    public string pricetag;
-    public string description;
+    public abstract string title { get; }
+    public virtual string pricetag {get;}
+    public abstract string description {get;}
 
     public int useCount;
     public int maxUses;
@@ -40,5 +40,9 @@ public abstract class Upgrade {
 
     private bool CheckDependencies(){
         return true;
+    }
+
+    public override string ToString() {
+        return this.title;
     }
 }
