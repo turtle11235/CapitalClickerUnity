@@ -301,7 +301,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 311.21936, y: 417.7806}
+  m_SizeDelta: {x: 310.0625, y: 417.7806}
   m_Pivot: {x: 0.49999997, y: 0.5}
 --- !u!114 &152505915
 MonoBehaviour:
@@ -877,8 +877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29278d162cda92d419b71cc9df3592ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
-  clickVal: 0
 --- !u!4 &1204282333
 Transform:
   m_ObjectHideFlags: 0
@@ -1154,7 +1152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyText: {fileID: 1421353748}
-  game: {fileID: 1204282332}
 --- !u!4 &1614310119
 Transform:
   m_ObjectHideFlags: 0
@@ -1199,10 +1196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c27b9d7b870e14dbbfc9d0d46df585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 1204282332}
   UpgradeModulePrefab: {fileID: 145111283954990494, guid: 113c8c3ff644ab24191c287399693b4a,
     type: 3}
   UpgradeButton: {fileID: 2894421950478395090, guid: e4efbdfb2261d5141b6927d8cb09dafd,
+    type: 3}
+  UpgradeButtonBehaviourPrefab: {fileID: 7363129801109641801, guid: bb21a3dd91f44314e9d75e7ab2f5b63d,
     type: 3}
   parent: {fileID: 150027015}
 --- !u!4 &1761404594
