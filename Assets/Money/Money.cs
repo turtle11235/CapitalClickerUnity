@@ -13,11 +13,16 @@ public class Money
     private int cents { get; set; }
 
     /// <summary>
-    /// Expects input to already be in cents form.
+    /// Expects input to already be in cents.
     /// </summary>
     private Money(int money)
     {
         this.cents = money;
+    }
+
+    public Money(Money money)
+    {
+        this.cents = money.cents;
     }
 
     public Money(double money)
@@ -25,30 +30,9 @@ public class Money
         this.cents = (int)Math.Round(money * 100);
     }
 
-    public Money(string money)
+    public void SetValue(Money money)
     {
-        string[] moneyParts = money.Split('.');
-
-        int dollars;
-        bool success = int.TryParse(moneyParts[0], out dollars);
-        if (success)
-        {
-            this.cents = dollars * 100;
-        }
-        else
-        {
-            this.cents = 0;
-        }
-
-        if (moneyParts.Length == 2)
-        {
-            int cents;
-            success = int.TryParse(moneyParts[1], out cents);
-            if (success)
-            {
-                this.cents += cents * 100;
-            }
-        }
+        this.cents = money.cents;
     }
 
     public static Money operator +(Money a, Money b)
@@ -57,5 +41,14 @@ public class Money
     public static Money operator -(Money a, Money b)
         => new Money(a.cents - b.cents);
 
-    public override string ToString() => $"${this.cents / 100}.{this.cents % 100}";
+    public static Money operator *(Money a, int b)
+        => new Money(a.cents * b);
+
+    public static bool operator <(Money a, Money b)
+        => a.cents < b.cents;
+
+    public static bool operator >(Money a, Money b)
+        => a.cents > b.cents;
+
+    public override string ToString() => $"${this.cents / 100}.{this.cents % 100:00}";
 }
