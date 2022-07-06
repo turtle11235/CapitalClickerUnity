@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-
 public class UpgradeModuleUpgrade : Upgrade
 {
     public override UpgradeID id { get { return UpgradeID.UPGRADE_MODULE; } }
@@ -67,13 +66,15 @@ public class MoneyMachineUpgrades : Upgrade
 
     public override bool Cost()
     {
-        return Game.money >= this.getNext<int>("price");
+        MoneyManager mm = MoneyManager.Instance;
+        return mm.CurrentMoney > new Money((double)this.getNext<int>("price")-.01);
     }
 
     protected override void Execute()
     {
-        Game.money -= this.getNext<int>("price");
-        Game.clickVal = this.getNext<double>("clickVal");
+        MoneyManager mm = MoneyManager.Instance;
+        mm.SpendMoney(new Money((double)this.getNext<int>("price")));
+        mm.SetUserClickVal(new Money(this.getNext<double>("clickVal")));
     }
 
 }
