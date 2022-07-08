@@ -57,6 +57,27 @@ public class Money
 
     public override string ToString() => $"${this.cents / 100}.{this.cents % 100:00}";
 
+    public static string ToString<T>(T money)
+    {
+        if (money is Money m)
+        {
+            return m.ToString();
+        }
+        else if (money is int i)
+        {
+            return $"${i}.00";
+        }
+        else if (money is double d)
+        {
+            int cents = (int)Math.Round(d * 100) % 100;
+            return $"${Math.Floor(d)}.{cents:00}";
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid input for ToString: '{money}'");
+        }
+    }
+
     private static int DoubleToCents(double money)
     {
         return (int)Math.Round(money * 100);
