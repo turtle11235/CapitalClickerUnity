@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class UpgradeManager {
 
@@ -8,6 +9,8 @@ public class UpgradeManager {
     private UpgradeManager(){
         this.upgrades = new List<Upgrade>();
         this.upgrades.Add(new UpgradeModuleUpgrade());
+        this.upgrades.Add(new MoneyMachineUpgrades());
+        Debug.Log(this.upgrades[this.upgrades.Count-1].maxUses);
     }
 
     public static UpgradeManager Instance(){

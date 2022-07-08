@@ -74,7 +74,7 @@ public class Money
         }
         else
         {
-            throw new ArgumentException($"Invalid input for ToString: '{money}'");
+            throw new ArgumentException($"Invalid input for Format: '{money}'");
         }
     }
 
