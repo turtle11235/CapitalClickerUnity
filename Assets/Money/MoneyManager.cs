@@ -28,12 +28,12 @@
         this.WorkerClickVal = new Money(0.01);
     }
 
-    public void SpendMoney(Money amount)
+    public void SpendMoney<T>(T amount)
     {
         this.CurrentMoney -= amount;
     }
 
-    public void EarnMoney(Money amount)
+    public void EarnMoney<T>(T amount)
     {
         this.CurrentMoney += amount;
         this.AccumulatedMoney += amount;
@@ -53,12 +53,12 @@
         EarnMoney(WorkerClickVal * numWorkers);
     }
 
-    public void SetUserClickVal(Money amount)
+    public void SetUserClickVal<T>(T amount)
     {
         this.UserClickVal.SetValue(amount);
     }
 
-    public void SetWorkerClickVal(Money amount)
+    public void SetWorkerClickVal<T>(T amount)
     {
         this.WorkerClickVal.SetValue(amount);
     }
