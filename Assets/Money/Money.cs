@@ -57,7 +57,7 @@ public class Money
 
     public override string ToString() => $"${this.cents / 100}.{this.cents % 100:00}";
 
-    public static string ToString<T>(T money)
+    public static string Format<T>(T money)
     {
         if (money is Money m)
         {
