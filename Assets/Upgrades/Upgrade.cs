@@ -43,8 +43,14 @@ public abstract class Upgrade {
 
     protected abstract void Execute();
 
-    protected bool CheckDependencies(UpgradeID id){
-        return true;
+    protected bool CheckDependencies(List<UpgradeID> ids){
+        UpgradeManager um = UpgradeManager.Instance();
+        return ids.TrueForAll(id => um.GetUpgrade(id).used);
+    }
+
+    protected bool CheckDependency(UpgradeID id)
+    {
+        return UpgradeManager.Instance().GetUpgrade(id).used;
     }
 
     public override string ToString() {
