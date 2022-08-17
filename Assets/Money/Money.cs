@@ -10,12 +10,12 @@ public class Money
     /// This property stores money in cents form.
     /// E.g. $40.52 is stored as 4052.
     /// </summary>
-    private int cents { get; set; }
+    private long cents { get; set; }
 
     /// <summary>
     /// Expects input to already be in cents.
     /// </summary>
-    private Money(int money)
+    private Money(long money)
     {
         this.cents = money;
     }

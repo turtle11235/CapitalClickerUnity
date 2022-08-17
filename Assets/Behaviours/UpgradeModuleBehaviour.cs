@@ -32,8 +32,7 @@ public class UpgradeModuleBehaviour : MonoBehaviour
         }
 
         if (instantiated) {
-            List<Upgrade> newUpgrades = um.getUpgrades();
-            Debug.Log(newUpgrades);
+            List<Upgrade> newUpgrades = um.GetUpgrades();
             IEnumerable<Upgrade> allUpgrades = newUpgrades.Union(currUpgrades);
 
             foreach(Upgrade upgrade in allUpgrades){

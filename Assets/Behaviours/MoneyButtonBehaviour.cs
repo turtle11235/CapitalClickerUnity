@@ -10,6 +10,5 @@ public class MoneyButtonBehaviour : MonoBehaviour
     public void OnButtonPress()
     {
         moneyManager.UserClick();
-        moneyText.text = moneyManager.CurrentMoney.ToString();
     }
 }

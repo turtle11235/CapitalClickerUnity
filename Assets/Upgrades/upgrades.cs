@@ -61,7 +61,7 @@ public class MoneyMachineUpgrades : Upgrade
 
     protected override bool CheckTriggerConditions()
     {
-        return this.CheckDependencies(UpgradeID.UPGRADE_MODULE);
+        return this.CheckDependency(UpgradeID.UPGRADE_MODULE);
     }
 
     public override bool Cost()

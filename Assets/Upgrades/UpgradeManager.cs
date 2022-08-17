@@ -4,13 +4,14 @@ using UnityEngine;
 public class UpgradeManager {
 
     private static UpgradeManager instance;
-    private List<Upgrade> upgrades;
+    private Dictionary<UpgradeID, Upgrade> upgrades;
 
     private UpgradeManager(){
-        this.upgrades = new List<Upgrade>();
-        this.upgrades.Add(new UpgradeModuleUpgrade());
-        this.upgrades.Add(new MoneyMachineUpgrades());
-        Debug.Log(this.upgrades[this.upgrades.Count-1].maxUses);
+        this.upgrades = new()
+        {
+            { UpgradeID.UPGRADE_MODULE, new UpgradeModuleUpgrade() },
+            { UpgradeID.MONEY_MACHINE, new MoneyMachineUpgrades() }
+        };
     }
 
     public static UpgradeManager Instance(){
@@ -20,9 +21,14 @@ public class UpgradeManager {
         return instance;
     }
 
-    public List<Upgrade> getUpgrades(){
+    public Upgrade GetUpgrade(UpgradeID id)
+    {
+        return this.upgrades[id];
+    }
+
+    public List<Upgrade> GetUpgrades(){
         List<Upgrade> visibleUpgrades = new List<Upgrade>();
-        foreach (Upgrade upgrade in this.upgrades) {
+        foreach (Upgrade upgrade in this.upgrades.Values) {
             if (!upgrade.used && upgrade.Trigger()) {
                 visibleUpgrades.Add(upgrade);
             }
