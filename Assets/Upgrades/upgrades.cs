@@ -78,3 +78,24 @@ public class MoneyMachineUpgrades : Upgrade
     }
 
 }
+
+public class BusinessModuleUpgrade : Upgrade
+{
+    public override UpgradeID id { get { return UpgradeID.BUSINESS_MODULE; } }
+
+    public override string title { get { return "Local Business License"; } }
+    public override string description { get { return "Why click when you can pay someone to click for you?"; } }
+
+    protected override bool CheckTriggerConditions() 
+    {
+        return this.CheckDependency(UpgradeID.UPGRADE_MODULE) && MoneyManager.Instance.AccumulatedMoney >= 10;
+    }
+
+    public override bool Cost() { return MoneyManager.Instance.CurrentMoney >= 10; }
+
+    protected override void Execute() 
+    {
+        MoneyManager.Instance.SpendMoney(10);
+        WorkManager.Instance.BusinessUnlocked = true;
+    }
+}

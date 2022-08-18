@@ -10,7 +10,8 @@ public class UpgradeManager {
         this.upgrades = new()
         {
             { UpgradeID.UPGRADE_MODULE, new UpgradeModuleUpgrade() },
-            { UpgradeID.MONEY_MACHINE, new MoneyMachineUpgrades() }
+            { UpgradeID.MONEY_MACHINE, new MoneyMachineUpgrades() },
+            { UpgradeID.BUSINESS_MODULE, new BusinessModuleUpgrade() }
         };
     }
 

@@ -54,7 +54,7 @@ public abstract class Upgrade {
     }
 
     public override string ToString() {
-        if (string.IsNullOrEmpty(this.pricetag)){
+        if (!string.IsNullOrEmpty(this.pricetag)){
             return this.title + " " + this.pricetag;
         }
         else {
