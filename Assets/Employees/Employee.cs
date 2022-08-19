@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Employee
@@ -10,6 +11,42 @@ public class Employee
     public string Name { get; set; }
     public string Title { get; set; }
     public WorkTasks Task { get; set; }
+    public int NumWorkers
+    {
+        get
+        {
+            if (this.Level == 0)
+            {
+                return 0;
+            }
+            else if (this.Level == 1)
+            {
+                return this.Subordinates.Count;
+            }
+            else
+            {
+                return this.Subordinates.Sum(subordinate => subordinate.NumWorkers);
+            }
+        }
+    }
+    public int NumManagers
+    {
+        get
+        {
+            if (this.Level <= 1)
+            {
+                return 0;
+            }
+            else if (this.Level == 2)
+            {
+                return this.Subordinates.Count;
+            }
+            else
+            {
+                return this.Subordinates.Sum(subordinate => subordinate.NumManagers) + this.Subordinates.Count;
+            }
+        }
+    }
     public int MaxSubordinates
     {
         get
@@ -78,6 +115,10 @@ public class Employee
         this.Boss = boss;
         this.Subordinates = subordinates != null ? subordinates : new List<Employee>();
         this.Task = WorkManager.Instance.AssignTask(this);
+        if (this.Level == 0)
+        {
+            this.workTimer.Start();
+        }
     }
 
     public void PerformTask()

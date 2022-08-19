@@ -30,6 +30,6 @@ public class CEO : Employee
 
     private CEO()
     {
-
+        this.Task = WorkTasks.MANAGEMENT;
     }
 }

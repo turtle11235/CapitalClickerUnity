@@ -31,7 +31,14 @@ public class WorkManager
 
     public WorkTasks AssignTask(Employee e)
     {
-        return 0;
+        if (e.Level > 0)
+        {
+            return WorkTasks.MANAGEMENT;
+        }
+        else
+        {
+            return WorkTasks.CLICK;
+        }
     }
 
 }

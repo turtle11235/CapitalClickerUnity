@@ -24,8 +24,8 @@ public class BusinessModuleBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*WorkerCountText.text = string.Format("Workers: {0}\tManagers: {1}", )*/
-
+        CEO.Instance.Work();
+        WorkerCountText.text = string.Format("Workers: {0}\t\tManagers: {1}", CEO.Instance.NumWorkers, CEO.Instance.NumManagers);
     }
 
 /*    void Instantiate()

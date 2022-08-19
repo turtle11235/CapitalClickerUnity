@@ -50,28 +50,35 @@ public class HiringManager
         }
 
         Employee currNode = this.Root;
+        Employee nextNode = currNode;
         while (currNode.Level > 0)
         {
-            foreach(Employee subordinate in currNode.Subordinates)
+            foreach (Employee subordinate in currNode.Subordinates)
             {
-                if (!subordinate.IsFull)
+                if (!subordinate.IsFullAllLevels)
                 {
-                    currNode = subordinate;
+                    nextNode = subordinate;
                     break;
                 }
             }
 
-            if (!currNode.IsFull)
+            if (nextNode == currNode)
             {
-                Employee newHire = new Employee(currNode.Level - 1, currNode);
-                currNode.Subordinates.Add(newHire);
-                return newHire;
-            }
-            else
-            {
-                throw new System.Exception("An error has occured while hiring");
+                break;
             }
         }
+
+        if (!currNode.IsFull)
+        {
+            Employee newHire = new Employee(currNode.Level - 1, currNode);
+            currNode.Subordinates.Add(newHire);
+            return newHire;
+        }
+        else
+        {
+            throw new System.Exception("An error has occured while hiring");
+        }
+        
         throw new System.Exception("failed to hire employee");
         
     }
