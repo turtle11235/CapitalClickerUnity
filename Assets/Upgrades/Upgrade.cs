@@ -8,14 +8,14 @@ public abstract class Upgrade {
     public abstract string description {get;}
     public virtual Dictionary<string, object> values {get;}
 
-    public int useCount = 0;
+    public int UseCount = 0;
     public virtual int maxUses { get { return 1; } }
     public bool used;
     public bool visible = false;
 
     public Upgrade(bool visible=false, int useCount=0){
         this.visible = visible;
-        this.useCount = useCount;
+        this.UseCount = useCount;
 
         if (useCount >= this.maxUses) {
             this.used = true;
@@ -35,8 +35,8 @@ public abstract class Upgrade {
 
     public void Use(){
         this.Execute();
-        this.useCount++;
-        if (this.useCount >= this.maxUses) {
+        this.UseCount++;
+        if (this.UseCount >= this.maxUses) {
             this.used = true;
         }
     }
@@ -65,6 +65,6 @@ public abstract class Upgrade {
 
     protected T getNext<T>(string name){
         T[] array = (T[])this.values[name];
-        return (T)array[this.useCount];
+        return (T)array[this.UseCount];
     }
 }

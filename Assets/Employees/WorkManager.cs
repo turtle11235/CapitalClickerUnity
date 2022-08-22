@@ -17,16 +17,25 @@ public class WorkManager
         }
     }
     public bool BusinessUnlocked { get; set; }
-    public double BaseWage { get; set; }
-    public double WageMultiplier { get; set; }
-    public int MaxManagerLevel { get; private set; }
     public List<Employee> Workers { get; set; }
+    public float PayPeriodInSeconds { get; set; }
+    public Timer PayTimer { get; private set; }
     private WorkManager()
     {
-        this.BaseWage = 10;
-        this.WageMultiplier = 2;
-        this.MaxManagerLevel = 1;
         this.BusinessUnlocked = false;
+        this.PayPeriodInSeconds = (60 * 60 * 24) / Clock.IRLToInGameTimeRatio; // Employees are paid once per in-game day
+        this.PayTimer = new Timer(this.PayPeriodInSeconds);
+        this.PayTimer.Start();
+    }
+
+    public void Execute()
+    {
+        CEO.Instance.Work();
+        if (this.PayTimer.PeriodHasElapsed)
+        {
+            CEO.Instance.Pay();
+            MoneyManager.Instance.SpendMoney(CEO.Instance.TotalBranchWages);
+        }
     }
 
     public WorkTasks AssignTask(Employee e)

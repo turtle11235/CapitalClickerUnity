@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HeaderTextBehaviour : MonoBehaviour
 {
     private MoneyManager mm = MoneyManager.Instance;
+    public Text TimeText;
     public Text moneyText;
 
 
@@ -19,5 +20,9 @@ public class HeaderTextBehaviour : MonoBehaviour
     void Update()
     {
         moneyText.text = mm.CurrentMoney.ToString();
+        if (Mathf.Floor(Clock.ElapsedMinutesInGame % 5) == 0)
+        {
+            TimeText.text = $"Day {Mathf.Floor(Clock.ElapsedDaysInGame)} {Clock.InGameTimeFormatted}";
+        }
     }
 }

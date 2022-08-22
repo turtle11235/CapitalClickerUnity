@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
+
     public static int Frames = 0;
     public static float Framerate = 0.0f;
+    public static float ElapsedSeconds = 0.0f;
     public float RefreshTime = 1.0f;
 
     private int m_frameCounter = 0;
@@ -19,6 +21,7 @@ public class Counter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ElapsedSeconds += Time.deltaTime;
         Frames++;
         if (m_timeCounter < RefreshTime)
         {

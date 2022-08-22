@@ -11,6 +11,7 @@ public class Employee
     public string Name { get; set; }
     public string Title { get; set; }
     public WorkTasks Task { get; set; }
+    public int NumEmployees { get { return this.NumWorkers + this.NumManagers; } }
     public int NumWorkers
     {
         get
@@ -85,12 +86,12 @@ public class Employee
         }
     }
 
-    public Money Wage
+    public virtual Money Wage
     {
         get
         {
-            double baseWage = WorkManager.Instance.BaseWage;
-            double multiplier = WorkManager.Instance.WageMultiplier;
+            double baseWage = HiringManager.Instance.BaseWage;
+            double multiplier = HiringManager.Instance.WageMultiplier;
             return new Money(baseWage * Math.Pow(multiplier, this.Level));
         }
     }
@@ -107,7 +108,7 @@ public class Employee
         }
     }
 
-    private Timer workTimer = new Timer(1 * 1000);
+    private Timer workTimer = new Timer(1); // Workers click once per IRL second
 
     public Employee(int level = 0, Employee boss = null, List<Employee> subordinates = null)
     {
@@ -152,21 +153,23 @@ public class Employee
         }
     }
 
-    public Money Pay()
+    public virtual Money Pay(Money funds=null)
     {
-        if (MoneyManager.Instance.CurrentMoney < this.Wage)
+        funds = funds ?? MoneyManager.Instance.CurrentMoney;
+        if (funds > this.TotalBranchWages)
         {
-            // TODO: HiringManager.Instance.quit();
-            return this.TotalBranchWages;
+            funds -= this.TotalBranchWages;
         }
-        else if (MoneyManager.Instance.CurrentMoney > this.TotalBranchWages)
+        else if (funds < this.Wage)
         {
-            return new Money(0);
+            funds -= this.TotalBranchWages;
+            HiringManager.Instance.Fire(this);
         }
         else
         {
-            return new Money(0);
+            funds = funds - this.Wage;
         }
+        return funds;
     }
 
 }

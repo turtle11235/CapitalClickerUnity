@@ -4,6 +4,13 @@ using UnityEngine;
 public class UpgradeManager {
 
     private static UpgradeManager instance;
+    public static UpgradeManager Instance(){
+        if (instance == null) {
+            instance = new UpgradeManager();
+        }
+        return instance;
+    }
+
     private Dictionary<UpgradeID, Upgrade> upgrades;
 
     private UpgradeManager(){
@@ -11,16 +18,12 @@ public class UpgradeManager {
         {
             { UpgradeID.UPGRADE_MODULE, new UpgradeModuleUpgrade() },
             { UpgradeID.MONEY_MACHINE, new MoneyMachineUpgrades() },
-            { UpgradeID.BUSINESS_MODULE, new BusinessModuleUpgrade() }
+            { UpgradeID.BUSINESS_MODULE, new BusinessModuleUpgrade() },
+            { UpgradeID.LOWER_MANAGERS, new LowerManagersUpgrade() },
+            { UpgradeID.WORKER_MACHINES, new WorkerMachineUpgrades() }
         };
     }
 
-    public static UpgradeManager Instance(){
-        if (instance == null) {
-            instance = new UpgradeManager();
-        }
-        return instance;
-    }
 
     public Upgrade GetUpgrade(UpgradeID id)
     {
