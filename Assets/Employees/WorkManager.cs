@@ -31,7 +31,7 @@ public class WorkManager
     public void Execute()
     {
         CEO.Instance.Work();
-        if (this.PayTimer.PeriodHasElapsed)
+        if (CEO.Instance.NumEmployees > 0 && this.PayTimer.PeriodHasElapsed)
         {
             CEO.Instance.Pay();
             MoneyManager.Instance.SpendMoney(CEO.Instance.TotalBranchWages);

@@ -20,7 +20,9 @@ public class UpgradeManager {
             { UpgradeID.MONEY_MACHINE, new MoneyMachineUpgrades() },
             { UpgradeID.BUSINESS_MODULE, new BusinessModuleUpgrade() },
             { UpgradeID.LOWER_MANAGERS, new LowerManagersUpgrade() },
-            { UpgradeID.WORKER_MACHINES, new WorkerMachineUpgrades() }
+            { UpgradeID.WORKER_MACHINES, new WorkerMachineUpgrades() },
+            { UpgradeID.MIDDLE_MANAGERS, new MiddleManagersUpgrade() },
+            { UpgradeID.FRIENDS_AND_FAM, new FriendsFamilyUpgrade() }
         };
     }
 

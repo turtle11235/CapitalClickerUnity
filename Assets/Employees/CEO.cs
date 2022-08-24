@@ -35,18 +35,30 @@ public class CEO : Employee
         this.Task = WorkTasks.MANAGEMENT;
     }
 
-    public override Money Pay(Money funds = null)
+    public Money Pay(Money funds = null)
     {
         funds = funds ?? MoneyManager.Instance.CurrentMoney;
         Queue<Employee> employees = new Queue<Employee>(this.Subordinates);
         Employee currEmployee;
         while(employees.TryDequeue(out currEmployee))
         {
-            funds = currEmployee.Pay();
-            foreach(Employee e in currEmployee.Subordinates)
+            if (funds < currEmployee.Wage)
             {
-                employees.Enqueue(e);
+                funds -= currEmployee.TotalBranchWages;
+                HiringManager.Instance.Fire(currEmployee);
             }
+            else
+            {
+                funds = funds - currEmployee.Wage;
+                if (funds > 0)
+                {
+                    foreach(Employee e in currEmployee.Subordinates)
+                    {
+                        employees.Enqueue(e);
+                    }
+                }
+            }
+
         }
         return funds;
     }

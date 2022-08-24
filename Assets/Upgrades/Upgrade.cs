@@ -34,6 +34,7 @@ public abstract class Upgrade {
     public abstract bool Cost();
 
     public void Use(){
+        this.visible = false;
         this.Execute();
         this.UseCount++;
         if (this.UseCount >= this.maxUses) {

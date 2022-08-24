@@ -153,23 +153,4 @@ public class Employee
         }
     }
 
-    public virtual Money Pay(Money funds=null)
-    {
-        funds = funds ?? MoneyManager.Instance.CurrentMoney;
-        if (funds > this.TotalBranchWages)
-        {
-            funds -= this.TotalBranchWages;
-        }
-        else if (funds < this.Wage)
-        {
-            funds -= this.TotalBranchWages;
-            HiringManager.Instance.Fire(this);
-        }
-        else
-        {
-            funds = funds - this.Wage;
-        }
-        return funds;
-    }
-
 }

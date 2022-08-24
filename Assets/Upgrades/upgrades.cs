@@ -105,7 +105,7 @@ public class LowerManagersUpgrade : Upgrade
     public override UpgradeID id { get { return UpgradeID.LOWER_MANAGERS; } }
     public override string title { get { return $"Beginner Business Techniques"; } }
     public override string pricetag { get { return "($100.00)"; } }
-    public override string description { get { return $"Managers make ${HiringManager.Instance.WageMultiplier}x workers' wages and oversee up to ${HiringManager.Instance.WorkersPerManager} workers"; } }
+    public override string description { get { return $"Managers make {HiringManager.Instance.WageMultiplier}x workers' wages and oversee up to {HiringManager.Instance.WorkersPerManager} workers"; } }
 
     protected override bool CheckTriggerConditions()
     {
@@ -119,6 +119,54 @@ public class LowerManagersUpgrade : Upgrade
         MoneyManager.Instance.SpendMoney(100);
         HiringManager.Instance.MaxManagerLevel++;
     }
+}
+
+public class MiddleManagersUpgrade : Upgrade
+{
+    public override UpgradeID id { get { return UpgradeID.MIDDLE_MANAGERS; } }
+
+    public override string title
+    {
+        get
+        {
+            return $"Middle Management{(this.UseCount > 0 ? " " + this.UseCount : "")}";
+        }
+    }
+    public override string description
+    {
+        get
+        {
+            return $"Middle-managers make {HiringManager.Instance.WageMultiplier}x their subordinates' wages and oversee up to {HiringManager.Instance.ManagersPerManager} managers";
+        }
+    }
+    public override string pricetag
+    {
+        get
+        {
+            return $"({this.Price})";
+        }
+    }
+    public Money Price { get { return new Money(400 * Math.Pow(2, this.UseCount)); } }
+    public override int maxUses { get { return int.MaxValue; } }
+
+    protected override bool CheckTriggerConditions()
+    {
+        return this.CheckDependency(UpgradeID.LOWER_MANAGERS) && CEO.Instance.Level == HiringManager.Instance.MaxManagerLevel && CEO.Instance.IsFullAllLevels;
+    }
+
+    public override bool Cost()
+    {
+        MoneyManager mm = MoneyManager.Instance;
+        return mm.CurrentMoney >= this.Price;
+    }
+
+    protected override void Execute()
+    {
+        MoneyManager mm = MoneyManager.Instance;
+        mm.SpendMoney(this.Price);
+        HiringManager.Instance.MaxManagerLevel++;
+    }
+
 }
 
 public class WorkerMachineUpgrades : Upgrade
@@ -176,4 +224,23 @@ public class WorkerMachineUpgrades : Upgrade
         mm.SetWorkerClickVal(this.getNext<double>("clickVal"));
     }
 
+}
+
+public class FriendsFamilyUpgrade : Upgrade
+{
+    public override UpgradeID id { get { return UpgradeID.FRIENDS_AND_FAM; } }
+    public override string title { get { return "Friends and Family Investment"; } }
+    public override string description { get { return "Receive $200 - This counts as your birthday present too..."; } }
+
+    protected override bool CheckTriggerConditions()
+    {
+        return this.CheckDependency(UpgradeID.BUSINESS_MODULE);
+    }
+
+    public override bool Cost() { return true; }
+
+    protected override void Execute()
+    {
+        MoneyManager.Instance.EarnMoney(200);
+    }
 }

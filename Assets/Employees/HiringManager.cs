@@ -58,6 +58,10 @@ public class HiringManager
         if (this.Root.IsFullAllLevels)
         {
             Employee e = new Employee(this.Root.Level, this.Root, this.Root.Subordinates);
+            foreach(Employee subordinate in e.Subordinates)
+            {
+                subordinate.Boss = e;
+            }
             this.Root.Subordinates = new List<Employee>() { e };
             return e;
         }
