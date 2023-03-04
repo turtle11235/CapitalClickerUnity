@@ -8,14 +8,14 @@ public abstract class Upgrade {
     public abstract string description {get;}
     public virtual Dictionary<string, object> values {get;}
 
-    public int useCount = 0;
+    public int UseCount = 0;
     public virtual int maxUses { get { return 1; } }
     public bool used;
     public bool visible = false;
 
     public Upgrade(bool visible=false, int useCount=0){
         this.visible = visible;
-        this.useCount = useCount;
+        this.UseCount = useCount;
 
         if (useCount >= this.maxUses) {
             this.used = true;
@@ -34,21 +34,28 @@ public abstract class Upgrade {
     public abstract bool Cost();
 
     public void Use(){
+        this.visible = false;
         this.Execute();
-        this.useCount++;
-        if (this.useCount >= this.maxUses) {
+        this.UseCount++;
+        if (this.UseCount >= this.maxUses) {
             this.used = true;
         }
     }
 
     protected abstract void Execute();
 
-    protected bool CheckDependencies(UpgradeID id){
-        return true;
+    protected bool CheckDependencies(List<UpgradeID> ids){
+        UpgradeManager um = UpgradeManager.Instance();
+        return ids.TrueForAll(id => um.GetUpgrade(id).used);
+    }
+
+    protected bool CheckDependency(UpgradeID id)
+    {
+        return UpgradeManager.Instance().GetUpgrade(id).used;
     }
 
     public override string ToString() {
-        if (string.IsNullOrEmpty(this.pricetag)){
+        if (!string.IsNullOrEmpty(this.pricetag)){
             return this.title + " " + this.pricetag;
         }
         else {
@@ -59,6 +66,6 @@ public abstract class Upgrade {
 
     protected T getNext<T>(string name){
         T[] array = (T[])this.values[name];
-        return (T)array[this.useCount];
+        return (T)array[this.UseCount];
     }
 }

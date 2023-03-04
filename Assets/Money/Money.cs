@@ -55,7 +55,15 @@ public class Money
         this.cents = DoubleToCents(money);
     }
 
-    public override string ToString() => $"${this.cents / 100}.{this.cents % 100:00}";
+    public override string ToString()
+    {
+        string s = $"${Math.Abs(this.cents) / 100}.{Math.Abs(this.cents) % 100:00}";
+        if (this.cents < 0)
+        {
+            s = "-" + s;
+        }
+        return s;
+    }
 
     public static string Format<T>(T money)
     {
@@ -79,6 +87,11 @@ public class Money
     }
 
     private static int DoubleToCents(double money)
+    {
+        return (int)Math.Round(money * 100);
+    }
+
+    private static int FloatToCents(float money)
     {
         return (int)Math.Round(money * 100);
     }
@@ -114,7 +127,7 @@ public class Money
         }
         else if (b is int i)
         {
-            newCents = a.cents + i * 100;
+            newCents = a.cents - i * 100;
         }
         else if (b is double d)
         {
@@ -127,8 +140,27 @@ public class Money
         return new Money(newCents);
     }
 
-    public static Money operator *(Money a, int b)
-        => new Money(a.cents * b);
+    public static Money operator *(Money a, object b)
+    {
+        int newCents;
+        if (b is int i)
+        {
+            newCents = a.cents * i;
+        }
+        else if (b is double d)
+        {
+            newCents = (int)Math.Round(a.cents * d);
+        }
+        else if (b is float f)
+        {
+            newCents = (int)Math.Round(a.cents * f);
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid input for * operator: '{b}'");
+        }
+        return new Money(newCents);
+    }
 
     public static bool operator <(Money a, object b)
     {

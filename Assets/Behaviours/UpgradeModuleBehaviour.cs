@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 public class UpgradeModuleBehaviour : MonoBehaviour
 {
-    bool instantiated = false;
-
     private UpgradeManager um = UpgradeManager.Instance();
     private List<Upgrade> currUpgrades = new List<Upgrade>();
 
     private Dictionary<UpgradeID, GameObject> buttons = new Dictionary<UpgradeID, GameObject>();
-    public GameObject UpgradeModulePrefab;
-
-    private Transform UpgradeModule;
     public GameObject UpgradeButton;
-    public GameObject UpgradeButtonBehaviourPrefab;
-    public Transform parent;
+
+    public Transform UpgradeArea;
+
+/*    public GameObject UpgradeModulePrefab;
+    private Transform UpgradeModule;
+    public Transform parent;*/
 
     // Start is called before the first frame update
     void Start()
@@ -27,46 +26,39 @@ public class UpgradeModuleBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!instantiated && MoneyManager.Instance.CurrentMoney > new Money(.74)) {
-            Instantiate();
-        }
+        List<Upgrade> newUpgrades = um.GetUpgrades();
+        IEnumerable<Upgrade> allUpgrades = newUpgrades.Union(currUpgrades);
 
-        if (instantiated) {
-            List<Upgrade> newUpgrades = um.getUpgrades();
-            Debug.Log(newUpgrades);
-            IEnumerable<Upgrade> allUpgrades = newUpgrades.Union(currUpgrades);
-
-            foreach(Upgrade upgrade in allUpgrades){
-                if (!newUpgrades.Contains(upgrade))
-                {
-                    currUpgrades.Remove(upgrade);
-                    buttons.Remove(upgrade.id);
-                }
-                else
-                {
-                    if (!currUpgrades.Contains(upgrade)){
-                        GameObject button = CreateUpgradeButton(upgrade);
-                        currUpgrades.Add(upgrade);
-                        buttons[upgrade.id] = button;
-                    }
-                    updateUpgradeButton(upgrade);
-                }
+        foreach(Upgrade upgrade in allUpgrades){
+            if (!newUpgrades.Contains(upgrade))
+            {
+                currUpgrades.Remove(upgrade);
+                buttons.Remove(upgrade.id);
             }
-
+            else
+            {
+                if (!currUpgrades.Contains(upgrade)){
+                    GameObject button = CreateUpgradeButton(upgrade);
+                    currUpgrades.Add(upgrade);
+                    buttons[upgrade.id] = button;
+                }
+                updateUpgradeButton(upgrade);
+            }
         }
+
     }
 
-    void Instantiate()
+/*    void Instantiate()
     {
         UpgradeModule = Instantiate(UpgradeModulePrefab).transform as Transform;
         UpgradeModule.SetParent(parent, false);
         instantiated = true;
-    }
+    }*/
 
     GameObject CreateUpgradeButton(Upgrade upgrade){
         GameObject button = Instantiate(UpgradeButton);
         Transform buttonT = button.transform as Transform;
-        buttonT.SetParent(UpgradeModule.GetChild(2), false);
+        buttonT.SetParent(UpgradeArea, false);
 
         Text title = buttonT.GetChild(0).GetChild(0).GetComponent(typeof(Text)) as Text;
         title.text = upgrade.ToString();

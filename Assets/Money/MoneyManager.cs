@@ -15,7 +15,7 @@
 
     public Money CurrentMoney { get; private set; }
     public Money AccumulatedMoney { get; private set; }
-    public Money MaxMoneySoFar { get; private set; }
+    public Money MaxMoney { get; private set; }
     public Money UserClickVal { get; private set; }
     public Money WorkerClickVal { get; private set; }
 
@@ -23,7 +23,7 @@
     {
         this.CurrentMoney = new Money(0);
         this.AccumulatedMoney = new Money(0);
-        this.MaxMoneySoFar = new Money(0);
+        this.MaxMoney = new Money(0);
         this.UserClickVal = new Money(0.01);
         this.WorkerClickVal = new Money(0.01);
     }
@@ -37,9 +37,9 @@
     {
         this.CurrentMoney += amount;
         this.AccumulatedMoney += amount;
-        if (this.CurrentMoney > this.MaxMoneySoFar)
+        if (this.CurrentMoney > this.MaxMoney)
         {
-            this.MaxMoneySoFar.SetValue(this.CurrentMoney);
+            this.MaxMoney.SetValue(this.CurrentMoney);
         }
     }
 
