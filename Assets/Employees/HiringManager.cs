@@ -139,10 +139,10 @@ public class HiringManager
         {
             if (this.Root.IsFullAllLevels)
             {
-                return this.BaseWage * Mathf.Pow(this.HireBonus, this.Root.Level + 1);
+                return this.HireBonus * this.BaseWage * Mathf.Pow(this.WageMultiplier, this.Root.Level);
             }
             Employee hiringNode = this.GetNextHiringNode();
-            return (this.BaseWage) * Mathf.Pow(this.HireBonus, hiringNode.Level);
+            return this.HireBonus * this.BaseWage * Mathf.Pow(this.WageMultiplier, hiringNode.Level - 1);
         }
     } 
     public Money FireNextCost
